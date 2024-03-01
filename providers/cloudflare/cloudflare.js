@@ -1,6 +1,5 @@
-const DNSTypes = require('../../types');
-const helpers = require('../../../../utils/helpers');
-// const dnsManager = require('../../manager');
+const DNSTypes = require('../../utils/types');
+const helpers = require('../../utils/helpers');
 
 class CloudFlareDNSManager {
     #_apiUrl = `https://api.cloudflare.com/client/v4`;
@@ -49,7 +48,6 @@ class CloudFlareDNSManager {
                     }
 
                     const url = `${baseUrl}${validAN ? `?name=${options.name}` : ''}`;
-                    console.log(url)
                     const response = await fetch(url, {
                         method: 'GET',
                         headers: {
