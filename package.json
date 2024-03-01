@@ -1,0 +1,12 @@
+{
+  "name": "nasriya-dns",
+  "version": "1.0.0",
+  "description": "A DNS manager for your domains",
+  "main": "manager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nasriya Software, LLC.",
+  "keywords": ["dns", "domain", "ip", "A record", "CNAME"],
+  "license": "ISC"
+}
