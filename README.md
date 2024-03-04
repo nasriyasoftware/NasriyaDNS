@@ -11,7 +11,15 @@ If your server is running behind a dynamic IP address you can make use of **Nasr
 **Notes:**
 - **NasriyaDNS** is part of [HyperCloud](https://github.com/nasriyasoftware/HyperCloud)'s HTTP2 server framework. 
 - For now, only [Cloudflare](https://cloudflare.com) and [Duckdns](https://duckdns.org) are supported.
+___
+## Quick Start Guide
 
+### Installation
+```shellscript
+npm install nasriyasoftware/NasriyaDNS
+```
+
+### Usage
 Start by preparing the DNS manager and the new IP address:
 ```js
 // require the dependency
@@ -21,7 +29,7 @@ const dnsManager = require('nasriya-dns');
 const public_ip = await dnsManager.helpers.getPublicIP();
 ```
 
-### DuckDNS
+##### DuckDNS
 ```js
 // Initialize a provider:
 const duckdns = dnsManager.duckdns(process.env.DUCKDNS_API_TOKEN);
@@ -30,7 +38,7 @@ const duckdns = dnsManager.duckdns(process.env.DUCKDNS_API_TOKEN);
 await duckdns.records.update('<myDomain>', public_ip);
 ```
 
-### Cloudflare
+##### Cloudflare
 ```js
 const cloudflare = dnsManager.cloudflare(process.env.CLOUDFLARE_API_TOKEN);
 
