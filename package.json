@@ -14,8 +14,12 @@
     "A record",
     "CNAME"
   ],
-  "license": "ISC",
+  "license": "Nasriya License",
   "dependencies": {
     "tldts": "^6.1.11"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/nasriyasoftware/NasriyaDNS/issues"
+  },
+  "homepage": "https://github.com/nasriyasoftware/NasriyaDNS"
 }
