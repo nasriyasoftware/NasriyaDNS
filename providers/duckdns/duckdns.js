@@ -40,6 +40,7 @@ class DuckDNSManager {
                             finalResponse.message = 'IP address is up to date'
                         } else {
                             finalResponse.message = `IP address has been updated`;
+                            finalResponse.code = 1;
                         }
 
                         return Promise.resolve(finalResponse);
