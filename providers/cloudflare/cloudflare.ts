@@ -1,22 +1,18 @@
-const DNSTypes = require('../../utils/types');
-const helpers = require('../../utils/helpers');
+import { dnsRecordTypes, DNSRecordType, A_Record_Cloudflare } from '../../utils/types';
+import helpers from '../../utils/helpers';
 
 class CloudFlareDNSManager {
-    #_apiUrl = `https://api.cloudflare.com/client/v4`;
+    private _apiUrl: string = `https://api.cloudflare.com/client/v4`;
     /**@type {CloudflareCredentials} */
-    #credentials = Object.seal({
-        apiToken: null,
+    private _credentials: CloudflareCredentials = Object.seal({
+        apiToken: null as unknown as string,
     })
 
-    /**
-     * 
-     * @param {string} apiToken An API token with ```Edit``` permission.
-     * @returns {this}
-     */
-    constructor(apiToken) {
+    /**@param {string} apiToken An API token with ```Edit``` permission. */
+    constructor(apiToken: string) {
         try {
             if (typeof apiToken === 'string' && apiToken.length > 10) {
-                this.#credentials.apiToken = apiToken;
+                this._credentials.apiToken = apiToken;
             } else {
                 throw new Error('Invalid api token');
             }
@@ -28,31 +24,32 @@ class CloudFlareDNSManager {
     }
 
     get zone() {
-        const baseUrl = `${this.#_apiUrl}/zones`;
+        const baseUrl = `${this._apiUrl}/zones`;
         return Object.freeze({
             /**
              * Get a list of the available DNS zones on your account
              * @param {object} [options] List options
              * @param {boolean} [options.just_ids] Only return the IDs
-             * @param {string} [options.name] The account name. E.g: ```domain.com```.
-             * @returns {Promise<string[]>} The available DNS zone IDs
+             * @param {string} [options.accountName] The account name. E.g: ```domain.com```.
+             * @returns {Promise<string[]|Object[]>} The available DNS zone IDs
              */
-            list: async (options) => {
+            list: async (options?: { just_ids?: boolean; accountName?: string }): Promise<Object[] | string[]> => {
                 try {
-                    let validAN;
+                    /**Validity of account name */
+                    let validAN = false;
 
-                    if (options && 'accountName' in options) {
-                        validAN = helpers.validate.domains(options?.name);
-                        if (!validAN) { throw new Error(`The provided account name (${options.name}) is not a valid domain`) }
-                        options.name = encodeURIComponent(options.name)
+                    if (options && 'accountName' in options && options.accountName) {
+                        validAN = helpers.validate.domains(options?.accountName);
+                        if (!validAN) { throw new Error(`The provided account name (${options.accountName}) is not a valid domain`) }
+                        options.accountName = encodeURIComponent(options.accountName)
                     }
 
-                    const url = `${baseUrl}${validAN ? `?name=${options.name}` : ''}`;
+                    const url = `${baseUrl}${validAN ? `?name=${options?.accountName}` : ''}`;
                     const response = await fetch(url, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${this.#credentials.apiToken}`,
+                            'Authorization': `Bearer ${this._credentials.apiToken}`,
                         }
                     })
 
@@ -67,9 +64,9 @@ class CloudFlareDNSManager {
 
                     if (data.result.length > 0) {
                         if (options?.just_ids === true) {
-                            return data.result.map(i => i.id)
+                            return data.result.map((i: { id: string }) => i.id)
                         }
-                        return data.result;
+                        return data.result as object[];
                     } else {
                         return [];
                     }
@@ -89,9 +86,9 @@ class CloudFlareDNSManager {
             /**
              * Display the details of a zone
              * @param {string} zone_id The zone ID you want to show the details for
-             * @returns {Promise<object>}
+             * @returns {Promise<object|null>}
              */
-            details: async (zone_id) => {
+            details: async (zone_id: string): Promise<object | null> => {
                 try {
                     if (typeof zone_id !== 'string' || zone_id.length === 0 || zone_id.length > 32) {
                         throw new Error(`${zone_id} is an invalid zone ID`)
@@ -101,7 +98,7 @@ class CloudFlareDNSManager {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${this.#credentials.apiToken}`,
+                            'Authorization': `Bearer ${this._credentials.apiToken}`,
                         }
                     })
 
@@ -137,24 +134,24 @@ class CloudFlareDNSManager {
     }
 
     get records() {
-        const baseUrl = `${this.#_apiUrl}/zones`;
+        const baseUrl = `${this._apiUrl}/zones`;
         return Object.freeze({
             /**
              * Get a list of records on a specific zone
              * @param {string} zone_id The zone ID of your domain
              * @param {object} [options]
              * @param {boolean} [options.simplified] Returns minimal footprint
-             * @param {DNSTypes.DNSRecordType} [options.type]
+             * @param {DNSRecordType} [options.type]
              */
-            list: async (zone_id, options) => {
+            list: async (zone_id: string, options?: { simplified?: boolean; type?: DNSRecordType }): Promise<any[]> => {
                 try {
                     if (typeof zone_id !== 'string' || zone_id.length === 0 || zone_id.length > 32) {
                         throw new Error(`${zone_id} is an invalid zone ID`)
                     }
 
                     let query = ''
-                    if (options && 'type' in options) {
-                        if (DNSTypes.dnsRecordTypes.includes(options.type)) {
+                    if (options && 'type' in options && options.type) {
+                        if (dnsRecordTypes.includes(options.type)) {
                             query = `?type=${options.type}`
                         } else {
                             throw `${options.type} is not a valid type of DNS records.`
@@ -166,7 +163,7 @@ class CloudFlareDNSManager {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${this.#credentials.apiToken}`,
+                            'Authorization': `Bearer ${this._credentials.apiToken}`,
                         }
                     })
 
@@ -182,9 +179,9 @@ class CloudFlareDNSManager {
                     if (options?.simplified === true) {
                         const fields = ['id', 'type', 'name', 'content', 'proxied']
 
-                        return data.result.map(i => {
-                            const item = {}
-                            fields.forEach(field => {
+                        return data.result.map((i: any) => {
+                            const item: any = {}
+                            fields.forEach((field: string) => {
                                 item[field] = i[field];
                             })
 
@@ -240,7 +237,7 @@ class CloudFlareDNSManager {
              *      }
              * })
              */
-            update: async (options) => {
+            update: async (options: DNSRecordUpdateOptions): Promise<DNSRecordUpdateResult> => {
                 helpers.printConsole('Updating DNS record..')
                 try {
                     if (!options) { throw new Error('Cloudflare update DNS options are missing') }
@@ -257,7 +254,7 @@ class CloudFlareDNSManager {
                     }
 
                     if (options.record.type !== 'A') {
-                        return Promise.resolve({ success: false, code: 100008, message: `${record.type} is not yet supported.` });
+                        return Promise.resolve({ success: false, code: 100008, message: `${options.record.type} is not yet supported.` });
                     }
 
                     const url = `${baseUrl}/${options.zone_id}/dns_records/${options.record_id}`;
@@ -265,7 +262,7 @@ class CloudFlareDNSManager {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${this.#credentials.apiToken}`,
+                            'Authorization': `Bearer ${this._credentials.apiToken}`,
                         },
                         body: JSON.stringify(options.record)
                     })
@@ -297,23 +294,21 @@ class CloudFlareDNSManager {
     }
 }
 
-/**
- * @typedef {object} DNSRecordUpdateOptions
- * @prop {string} zone_id
- * @prop {string} record_id The ID of the record you want to update
- * @prop {DNSTypes.A_Record_Cloudflare} record The record you want to update
- */
+interface DNSRecordUpdateOptions {
+    zone_id: string;
+    record_id: string;
+    record: A_Record_Cloudflare;
+}
 
-/**
- * @typedef {object} DNSRecordUpdateResult
- * @prop {boolean} success Whether the update is successful or not
- * @prop {number} code The result code
- * @prop {string} message The result message
- */
+interface DNSRecordUpdateResult {
+    success: boolean;
+    code: number;
+    message: string;
+}
 
-/**
- * @typedef {object} CloudflareCredentials
- * @prop {string} apiToken An API key with ```Edit``` permission.
-*/
+interface CloudflareCredentials {
+    apiToken: string;
+}
 
-module.exports = CloudFlareDNSManager;
+
+export default CloudFlareDNSManager;

@@ -4,13 +4,13 @@ class Helpers {
      * @param {string|any} message
      * @returns {void}
     */
-    printConsole(message) {
-        if (global.HyperCloud_ServerVerbose === true) {
-            console.debug(message)
+    printConsole(message: string | any): void {
+        if (globalThis.HyperCloud_ServerVerbose === true) {
+            console.debug(message);
         }
     }
 
-    validate = Object.freeze({
+    readonly validate = Object.freeze({
         /**
          * Validate an IPv4 or IPv6 address
          * @example
@@ -21,7 +21,7 @@ class Helpers {
          * @param {string} ip The IP address to validate
          * @returns {boolean}
          */
-        ipAddress: (ip) => {
+        ipAddress: (ip: string): boolean => {
             const ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})$|:^:$/;
             return ipPattern.test(ip);
         },
@@ -30,29 +30,28 @@ class Helpers {
          * @param {string|string[]} toCheck The domain(s) to check
          * @returns {boolean}
         */
-        domains: (toCheck) => {
+        domains: (toCheck: string | string[]): boolean => {
             const regex = /^(\*\.)?([\w-]+\.)+[\w-]+$/;
 
             if (typeof toCheck === 'string') {
                 return regex.test(toCheck);
             } else if (Array.isArray(toCheck)) {
-                /**@type {string[]} */
-                const invalidDomains = [];
+                const invalidDomains: string[] = [];
 
                 for (const domain of toCheck) {
                     if (!regex.test(domain)) {
-                        invalidDomains.push(domain)
+                        invalidDomains.push(domain);
                     }
                 }
 
                 if (invalidDomains.length === 0) {
                     return true;
                 } else {
-                    this.printConsole(`You have used invalid domains for the SSL certificate, the domains are: ${invalidDomains.toString()}.`)
+                    this.printConsole(`You have used invalid domains for the SSL certificate, the domains are: ${invalidDomains.toString()}.`);
                     return false;
                 }
             } else {
-                throw new Error(`The value that was passed on the "validate.domains()" method is invalid. Expected a string or an array of strings but instead got ${typeof toCheck}`)
+                throw new Error(`The value that was passed on the "validate.domains()" method is invalid. Expected a string or an array of strings but instead got ${typeof toCheck}`);
             }
         },
         /**
@@ -60,15 +59,11 @@ class Helpers {
          * @param {string} email The email address to check
          * @returns {boolean}
         */
-        email: (email) => {
+        email: (email: string): boolean => {
             const regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-            if (regex.test(email)) {
-                return true;
-            }
-
-            return false;
+            return regex.test(email);
         }
-    })
+    });
 }
 
-module.exports = new Helpers;
+export default new Helpers();

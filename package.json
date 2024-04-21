@@ -1,8 +1,8 @@
 {
   "name": "nasriya-dns",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A DNS manager for your domains",
-  "main": "manager.js",
+  "main": "manager.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/nasriyasoftware/NasriyaDNS/issues"
   },
-  "homepage": "https://github.com/nasriyasoftware/NasriyaDNS"
+  "homepage": "https://github.com/nasriyasoftware/NasriyaDNS",
+  "devDependencies": {
+    "@types/node": "^20.12.7"
+  }
 }

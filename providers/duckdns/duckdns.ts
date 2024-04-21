@@ -1,19 +1,19 @@
-const tldts = require('tldts');
+import tldts from 'tldts';
+
+interface DuckDNSCredentials {
+    apiToken: string;
+}
 
 class DuckDNSManager {
-    #_apiUrl = `https://www.duckdns.org/update`;
-    /**@type {DuckDNSCredentials} */
-    #credentials = Object.seal({
-        apiToken: null,
-    })
+    private _apiUrl: string = `https://www.duckdns.org/update`;
+    private credentials: DuckDNSCredentials;
 
     /**
      * Create a new `DuckDNSManager` instance
      * @param {string} apiToken An API token
-     * @returns {this}
      */
-    constructor(apiToken) {
-        this.#credentials.apiToken = apiToken;
+    constructor(apiToken: string) {
+        this.credentials = { apiToken };
     }
 
     get records() {
@@ -23,7 +23,7 @@ class DuckDNSManager {
              * @param {string} domain The domain you want to update. Example: use `nasriya` if your domain is `nasriya.duckdns.org`.
              * @param {string} ipAddress The new IP address
              */
-            update: async (domain, ipAddress) => {
+            update: async (domain: string, ipAddress: string) => {
                 try {
                     if (typeof domain !== 'string') { throw new TypeError(`Duckdns update method expected a string type for the domain parameter, but instead got ${typeof domain}`) }
                     if (domain.length === 0) { throw new RangeError(`Duckdns domain is too short`) }
@@ -31,7 +31,7 @@ class DuckDNSManager {
                     if (typeof ipAddress !== 'string') { throw new TypeError(`Duckdns update method expected a string type for the ipAddress parameter, but instead got ${typeof ipAddress}`) }
                     if (!tldts.parse(ipAddress).isIp) { throw `The provided ipAddress value (${ipAddress}) is not a valid IP address` }
 
-                    const url = `${this.#_apiUrl}?domains=${domain}&token=${this.#credentials.apiToken}&verbose=true`;
+                    const url = `${this._apiUrl}?domains=${domain}&token=${this.credentials.apiToken}&verbose=true`;
 
                     const response = await fetch(url).then(res => res.text());
                     if (response?.startsWith('OK')) {
@@ -48,7 +48,7 @@ class DuckDNSManager {
                         throw response;
                     }
                 } catch (error) {
-                    helpers.printConsole(error);
+                    console.error(error);
                     if (typeof error === 'string') {
                         return Promise.reject(`Error updating DNS record: ${error}`);
                     }
@@ -62,12 +62,6 @@ class DuckDNSManager {
             }
         })
     }
-
 }
 
-module.exports = DuckDNSManager;
-
-/**
- * @typedef {object} DuckDNSCredentials
- * @prop {string} apiToken An API token
- */
+export default DuckDNSManager;
