@@ -15,22 +15,22 @@ ___
 ## Quick Start Guide
 
 ### Installation
-```shellscript
+```shell
 npm install nasriyasoftware/NasriyaDNS
 ```
 
 ### Usage
 Start by preparing the DNS manager and the new IP address:
-```js
+```ts
 // require the dependency
-const dnsManager = require('nasriya-dns');
+import dnsManager from 'nasriya-dns';
 
 // Get the machine's public IP
 const public_ip = await dnsManager.helpers.getPublicIP();
 ```
 
 ##### DuckDNS
-```js
+```ts
 // Initialize a provider:
 const duckdns = dnsManager.duckdns(process.env.DUCKDNS_API_TOKEN);
 

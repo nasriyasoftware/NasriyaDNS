@@ -1,33 +1,32 @@
 import CloudFlareDNSManager from './providers/cloudflare/cloudflare';
 import DuckDNSManager from './providers/duckdns/duckdns';
 
-class HyperCloudDNSManager {
-    get helpers() {
-        return Object.freeze({
-            /**
-             * Get the current Public IP of this machine
-             * @returns {Promise<string>} The IP address of this machine
-             */
-            getPublicIP: (): Promise<string> => {
-                return new Promise((resolve, reject) => {
-                    fetch('https://api.ipify.org').then(res => res.text()).then(ip => resolve(ip)).catch(err => {
-                        if (err?.cause.code === 'UND_ERR_CONNECT_TIMEOUT') {
-                            reject('Unable to get public IP: No internet connection');
-                        } else {
-                            reject(err);
-                        }
-                    });
+/**A HyperCloud DNS manager */
+module hyperCloudDNS {
+    export const helpers = Object.freeze({
+        /**
+         * Get the current Public IP of this machine
+         * @returns {Promise<string>} The IP address of this machine
+         */
+        getPublicIP: (): Promise<string> => {
+            return new Promise((resolve, reject) => {
+                fetch('https://api.ipify.org').then(res => res.text()).then(ip => resolve(ip)).catch(err => {
+                    if (err?.cause.code === 'UND_ERR_CONNECT_TIMEOUT') {
+                        reject('Unable to get public IP: No internet connection');
+                    } else {
+                        reject(err);
+                    }
                 });
-            }
-        });
-    }
+            });
+        }
+    })
 
     /**
      * APIs to work with Cloudflare DNS records
      * @param {string} apiToken Your cloudflare API token
      * @returns {CloudFlareDNSManager} A new instance of Cloudflare DNS Manager
      */
-    cloudflare(apiToken: string): CloudFlareDNSManager {
+    export function cloudflare(apiToken: string): CloudFlareDNSManager {
         return new CloudFlareDNSManager(apiToken);
     }
 
@@ -36,9 +35,9 @@ class HyperCloudDNSManager {
      * @param {string} apiToken Your DuckDNS API token
      * @returns {DuckDNSManager}
      */
-    duckdns(apiToken: string): DuckDNSManager {
+    export function duckdns(apiToken: string): DuckDNSManager {
         return new DuckDNSManager(apiToken);
     }
 }
 
-export default new HyperCloudDNSManager();
+export default hyperCloudDNS;
