@@ -1,89 +1,57 @@
 import { DNSRecordType, A_Record_Cloudflare } from '../../../utils/types';
 
+/** Class representing a CloudFlare DNS Manager */
 declare class CloudFlareDNSManager {
-    get zone(): {
+    /**
+     * Constructor for the CloudFlareDNSManager class.
+     * @param apiToken An API token with ```Edit``` permission.
+     */
+    constructor(apiToken: string);
+
+    /**Methods to interact with DNS zones. */
+    readonly zone: {
         /**
-         * Get a list of the available DNS zones on your account
-         * @returns {Promise<Object[]>} The available DNS zones
+         * Get a list of the available DNS zones on your account.
+         * @param options List options.
+         * @returns The available DNS zone IDs.
          */
-        list(): Promise<object[]>;
+        list(options?: { just_ids?: boolean; accountName?: string }): Promise<Object[] | string[]>;
+
         /**
-         * Get a list of the available DNS zones on your account
-         * @param {object} [options] List options
-         * @param {false} options.just_ids Only return the IDs
-         * @param {string} [options.accountName] The account name. E.g: ```domain.com```.
-         * @returns {Promise<Object[]>} The available DNS zones
-         */
-        list(options?: { just_ids: false; accountName?: string }): Promise<object[]>;
-        /**
-         * Get a list of the available DNS zones on your account
-         * @param {object} [options] List options
-         * @param {true} options.just_ids Only return the IDs
-         * @param {string} [options.accountName] The account name. E.g: ```domain.com```.
-         * @returns {Promise<string[]>} The available DNS zone IDs
-         */
-        list(options?: { just_ids: true; accountName?: string }): Promise<string[]>;
-        /**
-         * Display the details of a zone
-         * @param {string} zone_id The zone ID you want to show the details for
-         * @returns {Promise<object|null>}
+         * Display the details of a zone.
+         * @param zone_id The zone ID you want to show the details for.
+         * @returns The details of the zone.
          */
         details(zone_id: string): Promise<object | null>;
     };
 
-    get records(): {
+    /**Methods to interact with DNS records. */
+    readonly records: {
         /**
-         * Get a list of records on a specific zone
-         * @param {string} zone_id The zone ID of your domain
-         * @param {object} [options]
-         * @param {boolean} [options.simplified] Returns minimal footprint
-         * @param {DNSRecordType} [options.type]
-        */
+         * Get a list of records on a specific zone.
+         * @param zone_id The zone ID of your domain.
+         * @param options Options for listing DNS records.
+         * @returns The list of DNS records.
+         */
         list(zone_id: string, options?: { simplified?: boolean; type?: DNSRecordType }): Promise<any[]>;
+
         /**
-         * Update the 
-         * @param {DNSRecordUpdateOptions} options
-         * @returns {Promise<DNSRecordResult>}
-         * @example
-         * // Update Cloudflare DNS records to the new public IP
-         * const hypercloud = require('nasriya-hypercloud);
-         * const cloudflare = hypercloud.dnsManager.cloudflare('your_api_token');
-         * 
-         * // Get the current public IP:
-         * const publicIp = await hypercloud.dnsManager.helpers.getPublicIP();
-         * 
-         * // Prepare your records:
-         * const records = [
-         *      { id: '<wildcard_record_id>', name: '*', content: publicIp, type: 'A' }, // Wildcard (subdomains)
-         *      { id: '<root_record_id>', name: '@', content: publicIp, type: 'A' }  // The root
-         * ]
-         * 
-         * // Setup promises
-         * const updateResult = await Promise.allSettled(promises).then(res => {
-         *      const fulfilled = res.filter(i => i.status === 'fulfilled').map(i => i.value);
-         *      const fulfilled = res.filter(i => i.status === 'fulfilled').map(i => i.value);
-         * 
-         *      if (fulfilled.length === records.length) {
-         *          return Promise.resolve({ status: 'success', result: fulfilled });
-         *      } else {
-         *          return Promise.resolve({ status: 'failed', result: rejected });
-         *      }
-         * 
-         *      if (updateResult.status === 'failed') {
-         *          console.error(updateResult.result)    
-         *      }
-         * })
+         * Update a DNS record.
+         * @param options Options for updating DNS records.
+         * @returns The result of the update operation.
          */
         update(options: DNSRecordUpdateOptions): Promise<DNSRecordUpdateResult>;
     };
 }
 
+/** Interface for the options of updating DNS records */
 interface DNSRecordUpdateOptions {
     zone_id: string;
     record_id: string;
     record: A_Record_Cloudflare;
 }
 
+/** Interface for the result of updating DNS records */
 interface DNSRecordUpdateResult {
     success: boolean;
     code: number;

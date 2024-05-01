@@ -23,62 +23,24 @@ npm install nasriyasoftware/NasriyaDNS
 Start by preparing the DNS manager and the new IP address:
 ```ts
 // require the dependency
-import dnsManager from 'nasriya-dns';
+import hyperCloudDNS from 'nasriya-dns';
 
 // Get the machine's public IP
-const public_ip = await dnsManager.helpers.getPublicIP();
+const public_ip: string = await hyperCloudDNS.helpers.getPublicIP();
 ```
 
 ##### DuckDNS
 ```ts
 // Initialize a provider:
-const duckdns = dnsManager.duckdns(process.env.DUCKDNS_API_TOKEN);
+const duckdns: DuckDNSManager = hyperCloudDNS.duckdns(process.env.DUCKDNS_API_TOKEN);
 
 // Update the IP address
 await duckdns.records.update('<myDomain>', public_ip);
 ```
 
 ##### Cloudflare
-```js
-const cloudflare = dnsManager.cloudflare(process.env.CLOUDFLARE_API_TOKEN);
+```ts
 
-// If you know the Zone ID of your domain;
-const zone_id = process.env.CLOUDFLARE_ZONE_ID;
-
-// If you don't know the Zone ID
-const zone_id = await cloudflare.zone.list({
-    name: '<domain.com>',
-    just_ids: true
-}).then(list => list[0]);
-
-// Get all A records:
-const records = await cloudflare.records.list(zone_id, {
-    type: 'A',
-    simplified: true
-})
-
-// Prepare the promises
-const promises = records.map(record => {
-    return new Promise((resolve, reject) => {
-        cloudflare.records.update({
-            zone_id,
-            record
-            record_id: record.id,
-        }).then(res => resolve(res)).catch(err => reject(err));
-    })
-})
-
-// Invoke promises
-await Promise.allSettled(promises).then(res => {
-    const fulfilled = res.filter(i => i.status === 'fulfilled').map(i => i.value);
-    const rejected = res.filter(i => i.status === 'rejected').map(i => i.reason);
-
-    if (fulfilled.length === res.length) {
-        return Promise.resolve({ status: 'success', result: fulfilled });
-    } else {
-        return Promise.resolve({ status: 'failed', result: rejected });
-    }
-})
 ```
 ___
 ## License
