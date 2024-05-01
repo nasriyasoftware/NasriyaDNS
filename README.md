@@ -40,7 +40,46 @@ await duckdns.records.update('<myDomain>', public_ip);
 
 ##### Cloudflare
 ```ts
+import hyperCloudDNS from "nasriya-dns";
+const cloudflare = hyperCloudDNS.cloudflare(process.env.CLOUDFLARE_API_TOKEN);
 
+// If you know the Zone ID of your domain, uncomment the below line
+// const zone_id = process.env.CLOUDFLARE_ZONE_ID;
+
+// If you don't know the Zone ID. Comment the following 4 lines if you do
+const zone_id: string = await cloudflare.zone.list({
+    accountName: '<domain.com>',
+    just_ids: true
+}).then(list => list[0]) as string;
+
+// Get all A records:
+const records = await cloudflare.records.list(zone_id, {
+    type: 'A',
+    simplified: true
+})
+
+// Prepare the promises
+const promises = records.map(record => {
+    return new Promise((resolve, reject) => {
+        cloudflare.records.update({
+            zone_id,
+            record,
+            record_id: record.id,
+        }).then(res => resolve(res)).catch(err => reject(err));
+    })
+})
+
+// Invoke promises
+await Promise.allSettled(promises).then(res => {
+    const fulfilled = (res.filter(i => i.status === 'fulfilled') as unknown as PromiseFulfilledResult<unknown>[]).map(i => i.value);
+    const rejected = (res.filter(i => i.status === 'rejected') as unknown as PromiseRejectedResult[]).map(i => i.reason);
+
+    if (fulfilled.length === res.length) {
+        return Promise.resolve({ status: 'success', result: fulfilled });
+    } else {
+        return Promise.resolve({ status: 'failed', result: rejected });
+    }
+})
 ```
 ___
 ## License
