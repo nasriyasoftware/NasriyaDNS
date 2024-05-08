@@ -1,5 +1,5 @@
-import CloudFlareDNSManager from '../providers/cloudflare/cloudflare';
-import DuckDNSManager from '../providers/duckdns/duckdns';
+import CloudFlareDNSManager from './providers/cloudflare/cloudflare';
+import DuckDNSManager from './providers/duckdns/duckdns';
 
 declare module 'hyperCloudDNS' {
     export const helpers: {
