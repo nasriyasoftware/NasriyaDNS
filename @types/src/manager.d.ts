@@ -1,7 +1,7 @@
 import CloudFlareDNSManager from './providers/cloudflare/cloudflare';
 import DuckDNSManager from './providers/duckdns/duckdns';
 
-declare module 'nasriya-dns' {
+declare module 'hypercloudDNS' {
     export const helpers: {
         /**
          * Get the current Public IP of this machine
