@@ -1,4 +1,4 @@
-import { dnsRecordTypes, DNSRecordType, A_Record_Cloudflare } from '../../utils/types';
+import { dnsRecordTypes, DNSRecordType, A_Record_Cloudflare } from '../../docs/docs';
 import helpers from '../../utils/helpers';
 
 class CloudFlareDNSManager {

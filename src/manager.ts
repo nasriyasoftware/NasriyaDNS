@@ -2,7 +2,7 @@ import CloudFlareDNSManager from './providers/cloudflare/cloudflare';
 import DuckDNSManager from './providers/duckdns/duckdns';
 
 /**A HyperCloud DNS manager */
-module hyperCloudDNS {
+module hypercloudDNS {
     export const helpers = Object.freeze({
         /**
          * Get the current Public IP of this machine
@@ -40,4 +40,4 @@ module hyperCloudDNS {
     }
 }
 
-export default hyperCloudDNS;
+export default hypercloudDNS;
