@@ -1,10 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const tldts_1 = __importDefault(require("tldts"));
-const helpers_1 = __importDefault(require("../../utils/helpers"));
+import tldts from 'tldts';
+import helpers from '../../utils/helpers';
 class DuckDNSManager {
     _apiUrl = `https://www.duckdns.org/update`;
     credentials;
@@ -32,7 +27,7 @@ class DuckDNSManager {
                 if (typeof ipAddress !== 'string') {
                     throw new TypeError(`Duckdns update method expected a string type for the ipAddress parameter, but instead got ${typeof ipAddress}`);
                 }
-                if (!tldts_1.default.parse(ipAddress).isIp) {
+                if (!tldts.parse(ipAddress).isIp) {
                     throw `The provided ipAddress value (${ipAddress}) is not a valid IP address`;
                 }
                 const url = `${this._apiUrl}?domains=${domain}&token=${this.credentials.apiToken}&verbose=true`;
@@ -53,7 +48,7 @@ class DuckDNSManager {
                 }
             }
             catch (error) {
-                helpers_1.default.printConsole(error);
+                helpers.printConsole(error);
                 if (typeof error === 'string') {
                     throw new Error(`Error updating DNS record: ${error}`);
                 }
@@ -67,4 +62,4 @@ class DuckDNSManager {
         }
     };
 }
-exports.default = DuckDNSManager;
+export default DuckDNSManager;

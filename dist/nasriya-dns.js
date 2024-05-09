@@ -1,10 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const cloudflare_1 = __importDefault(require("./providers/cloudflare/cloudflare"));
-const duckdns_1 = __importDefault(require("./providers/duckdns/duckdns"));
+import CloudFlareDNSManager from './providers/cloudflare/cloudflare';
+import DuckDNSManager from './providers/duckdns/duckdns';
 /**A HyperCloud DNS manager */
 var hypercloudDNS;
 (function (hypercloudDNS) {
@@ -32,7 +27,7 @@ var hypercloudDNS;
      * @returns {CloudFlareDNSManager} A new instance of Cloudflare DNS Manager
      */
     function cloudflare(apiToken) {
-        return new cloudflare_1.default(apiToken);
+        return new CloudFlareDNSManager(apiToken);
     }
     hypercloudDNS.cloudflare = cloudflare;
     /**
@@ -41,8 +36,8 @@ var hypercloudDNS;
      * @returns {DuckDNSManager}
      */
     function duckdns(apiToken) {
-        return new duckdns_1.default(apiToken);
+        return new DuckDNSManager(apiToken);
     }
     hypercloudDNS.duckdns = duckdns;
 })(hypercloudDNS || (hypercloudDNS = {}));
-exports.default = hypercloudDNS;
+export default hypercloudDNS;
