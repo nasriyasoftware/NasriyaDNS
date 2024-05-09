@@ -1,14 +1,15 @@
 {
     "compilerOptions": {
-        "target": "ES2018",
+        "target": "ESNext",
         "module": "CommonJS",
         "outDir": "./dist",
         "rootDir": "./src",
-        "strict": true,
+        "declaration": true,
+        "declarationDir": "./dist/@types",
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "declaration": true,
-        "declarationDir": "./dist/@types"
+        "strict": true,
+        "forceConsistentCasingInFileNames": true
     },
     "include": [
         "src/**/*.ts"

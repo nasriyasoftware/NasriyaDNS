@@ -7,26 +7,24 @@ const cloudflare_1 = __importDefault(require("./providers/cloudflare/cloudflare"
 const duckdns_1 = __importDefault(require("./providers/duckdns/duckdns"));
 /**A HyperCloud DNS manager */
 class HyperCloudDNS {
-    constructor() {
-        this.helpers = Object.freeze({
-            /**
-             * Get the current Public IP of this machine
-             * @returns {Promise<string>} The IP address of this machine
-             */
-            getPublicIP: () => {
-                return new Promise((resolve, reject) => {
-                    fetch('https://api.ipify.org').then(res => res.text()).then(ip => resolve(ip)).catch(err => {
-                        if ((err === null || err === void 0 ? void 0 : err.cause.code) === 'UND_ERR_CONNECT_TIMEOUT') {
-                            reject('Unable to get public IP: No internet connection');
-                        }
-                        else {
-                            reject(err);
-                        }
-                    });
+    helpers = Object.freeze({
+        /**
+         * Get the current Public IP of this machine
+         * @returns {Promise<string>} The IP address of this machine
+         */
+        getPublicIP: () => {
+            return new Promise((resolve, reject) => {
+                fetch('https://api.ipify.org').then(res => res.text()).then(ip => resolve(ip)).catch(err => {
+                    if (err?.cause.code === 'UND_ERR_CONNECT_TIMEOUT') {
+                        reject('Unable to get public IP: No internet connection');
+                    }
+                    else {
+                        reject(err);
+                    }
                 });
-            }
-        });
-    }
+            });
+        }
+    });
     /**
      * APIs to work with Cloudflare DNS records
      * @param {string} apiToken Your cloudflare API token
