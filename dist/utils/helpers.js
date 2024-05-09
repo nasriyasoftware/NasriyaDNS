@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Helpers {
-    constructor() {
+var Helpers = /** @class */ (function () {
+    function Helpers() {
+        var _this = this;
         this.validate = Object.freeze({
             /**
              * Validate an IPv4 or IPv6 address
@@ -13,8 +14,8 @@ class Helpers {
              * @param {string} ip The IP address to validate
              * @returns {boolean}
              */
-            ipAddress: (ip) => {
-                const ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})$|:^:$/;
+            ipAddress: function (ip) {
+                var ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})$|:^:$/;
                 return ipPattern.test(ip);
             },
             /**
@@ -22,14 +23,15 @@ class Helpers {
              * @param {string|string[]} toCheck The domain(s) to check
              * @returns {boolean}
             */
-            domains: (toCheck) => {
-                const regex = /^(\*\.)?([\w-]+\.)+[\w-]+$/;
+            domains: function (toCheck) {
+                var regex = /^(\*\.)?([\w-]+\.)+[\w-]+$/;
                 if (typeof toCheck === 'string') {
                     return regex.test(toCheck);
                 }
                 else if (Array.isArray(toCheck)) {
-                    const invalidDomains = [];
-                    for (const domain of toCheck) {
+                    var invalidDomains = [];
+                    for (var _i = 0, toCheck_1 = toCheck; _i < toCheck_1.length; _i++) {
+                        var domain = toCheck_1[_i];
                         if (!regex.test(domain)) {
                             invalidDomains.push(domain);
                         }
@@ -38,12 +40,12 @@ class Helpers {
                         return true;
                     }
                     else {
-                        this.printConsole(`You have used invalid domains for the SSL certificate, the domains are: ${invalidDomains.toString()}.`);
+                        _this.printConsole("You have used invalid domains for the SSL certificate, the domains are: ".concat(invalidDomains.toString(), "."));
                         return false;
                     }
                 }
                 else {
-                    throw new Error(`The value that was passed on the "validate.domains()" method is invalid. Expected a string or an array of strings but instead got ${typeof toCheck}`);
+                    throw new Error("The value that was passed on the \"validate.domains()\" method is invalid. Expected a string or an array of strings but instead got ".concat(typeof toCheck));
                 }
             },
             /**
@@ -51,8 +53,8 @@ class Helpers {
              * @param {string} email The email address to check
              * @returns {boolean}
             */
-            email: (email) => {
-                const regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+            email: function (email) {
+                var regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
                 return regex.test(email);
             }
         });
@@ -62,10 +64,11 @@ class Helpers {
      * @param {string|any} message
      * @returns {void}
     */
-    printConsole(message) {
+    Helpers.prototype.printConsole = function (message) {
         if (process.env.HYPERCLOUD_SERVER_VERBOSE === 'TRUE') {
             console.debug(message);
         }
-    }
-}
+    };
+    return Helpers;
+}());
 exports.default = new Helpers();
