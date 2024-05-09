@@ -2,7 +2,7 @@
   "name": "nasriya-dns",
   "version": "1.0.1",
   "description": "A DNS manager for your domains",
-  "main": "dist/nasriya-dns.js",
+  "main": "src/nasriya-dns.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
