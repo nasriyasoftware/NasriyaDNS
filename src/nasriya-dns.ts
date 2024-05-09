@@ -41,4 +41,4 @@ class HyperCloudDNS {
 
 }
 
-export default new HyperCloudDNS;
+export default new HyperCloudDNS();
