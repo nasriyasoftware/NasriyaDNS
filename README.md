@@ -9,9 +9,7 @@ ___
 If your server is running behind a dynamic IP address you can make use of **Nasriya DNS manager** to update the [DNS records](https://www.cloudflare.com/learning/dns/dns-records/) of your domain.
 
 **Notes:**
-- **NasriyaDNS** is part of [HyperCloud](https://github.com/nasriyasoftware/HyperCloud)'s HTTP2 server framework. 
-- For now, only [Cloudflare](https://cloudflare.com) and [Duckdns](https://duckdns.org) are supported.
-- For now, you can *only* run the package with [Bun](https://bun.sh/).
+- **NasriyaDNS** is part of [HyperCloud](https://github.com/nasriyasoftware/HyperCloud)'s HTTP2 server framework.
 ___
 ## Quick Start Guide
 
@@ -20,12 +18,20 @@ ___
 npm install nasriyasoftware/NasriyaDNS
 ```
 
-### Usage
-Start by preparing the DNS manager and the new IP address:
+### Importing
+You can import the pacakge both in the `ES6` or `CommonJS` syntax:
 ```ts
-// require the dependency
+// ES6 Syntax
 import hyperCloudDNS from 'nasriya-dns';
+```
 
+```js
+const hyperCloudDNS = require('nasriya-dns').default;
+```
+
+### Usage
+Start by getting the new IP address:
+```ts
 // Get the machine's public IP
 const public_ip: string = await hyperCloudDNS.helpers.getPublicIP();
 ```
