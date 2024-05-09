@@ -26,6 +26,7 @@ import hyperCloudDNS from 'nasriya-dns';
 ```
 
 ```js
+// CommonJS Syntax
 const hyperCloudDNS = require('nasriya-dns').default;
 ```
 
