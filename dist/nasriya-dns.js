@@ -1,5 +1,10 @@
-import CloudFlareDNSManager from './providers/cloudflare/cloudflare';
-import DuckDNSManager from './providers/duckdns/duckdns';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const cloudflare_1 = __importDefault(require("./providers/cloudflare/cloudflare"));
+const duckdns_1 = __importDefault(require("./providers/duckdns/duckdns"));
 /**A HyperCloud DNS manager */
 class HyperCloudDNS {
     helpers = Object.freeze({
@@ -26,7 +31,7 @@ class HyperCloudDNS {
      * @returns {CloudFlareDNSManager} A new instance of Cloudflare DNS Manager
      */
     cloudflare(apiToken) {
-        return new CloudFlareDNSManager(apiToken);
+        return new cloudflare_1.default(apiToken);
     }
     /**
      * APIs to work with Duckdns DNS records
@@ -34,7 +39,7 @@ class HyperCloudDNS {
      * @returns {DuckDNSManager}
      */
     duckdns(apiToken) {
-        return new DuckDNSManager(apiToken);
+        return new duckdns_1.default(apiToken);
     }
 }
-export default new HyperCloudDNS;
+exports.default = new HyperCloudDNS;

@@ -1,5 +1,10 @@
-import { dnsRecordTypes } from '../../docs/docs';
-import helpers from '../../utils/helpers';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const docs_1 = require("../../docs/docs");
+const helpers_1 = __importDefault(require("../../utils/helpers"));
 class CloudFlareDNSManager {
     _apiUrl = `https://api.cloudflare.com/client/v4`;
     _baseUrl = `${this._apiUrl}/zones`;
@@ -17,7 +22,7 @@ class CloudFlareDNSManager {
             }
         }
         catch (error) {
-            helpers.printConsole(error);
+            helpers_1.default.printConsole(error);
             if (typeof error === 'string') {
                 throw new Error(`Cloudflare credentials error: ${error}`);
             }
@@ -42,7 +47,7 @@ class CloudFlareDNSManager {
                 /**Validity of account name */
                 let validAN = false;
                 if (options && 'accountName' in options && options.accountName) {
-                    validAN = helpers.validate.domains(options?.accountName);
+                    validAN = helpers_1.default.validate.domains(options?.accountName);
                     if (!validAN) {
                         throw new Error(`The provided account name (${options.accountName}) is not a valid domain`);
                     }
@@ -59,8 +64,8 @@ class CloudFlareDNSManager {
                 const data = await response.json();
                 if (!data.success) {
                     const error = data.errors;
-                    helpers.printConsole('Cloudflare DNS zone list inquiry has failed with the following error');
-                    helpers.printConsole(error);
+                    helpers_1.default.printConsole('Cloudflare DNS zone list inquiry has failed with the following error');
+                    helpers_1.default.printConsole(error);
                     throw new Error('Cloudflare DNS zone list inquiry has failed');
                 }
                 if (data.result.length > 0) {
@@ -71,7 +76,7 @@ class CloudFlareDNSManager {
                 }
             }
             catch (error) {
-                helpers.printConsole(error);
+                helpers_1.default.printConsole(error);
                 if (typeof error === 'string') {
                     throw new Error(`Error retrieving Zone list: ${error}`);
                 }
@@ -103,8 +108,8 @@ class CloudFlareDNSManager {
                 const data = await response.json();
                 if (!data.success) {
                     const error = data.errors;
-                    helpers.printConsole('Cloudflare DNS zone details inquiry has failed with the following error');
-                    helpers.printConsole(error);
+                    helpers_1.default.printConsole('Cloudflare DNS zone details inquiry has failed with the following error');
+                    helpers_1.default.printConsole(error);
                     throw new Error('Cloudflare DNS zone details inquiry has failed');
                 }
                 if (data && 'id' in data.result && 'account' in data.result) {
@@ -115,7 +120,7 @@ class CloudFlareDNSManager {
                 }
             }
             catch (error) {
-                helpers.printConsole(error);
+                helpers_1.default.printConsole(error);
                 if (typeof error === 'string') {
                     throw new Error(`Error retrieving Zone details: ${error}`);
                 }
@@ -143,7 +148,7 @@ class CloudFlareDNSManager {
                 }
                 let query = '';
                 if (options && 'type' in options && options.type) {
-                    if (dnsRecordTypes.includes(options.type)) {
+                    if (docs_1.dnsRecordTypes.includes(options.type)) {
                         query = `?type=${options.type}`;
                     }
                     else {
@@ -161,8 +166,8 @@ class CloudFlareDNSManager {
                 const data = await response.json();
                 if (!data.success) {
                     const error = data.errors;
-                    helpers.printConsole('Cloudflare DNS records inquiry has failed with the following error');
-                    helpers.printConsole(error);
+                    helpers_1.default.printConsole('Cloudflare DNS records inquiry has failed with the following error');
+                    helpers_1.default.printConsole(error);
                     throw new Error('Cloudflare DNS records inquiry has failed');
                 }
                 if (options?.simplified === true) {
@@ -180,7 +185,7 @@ class CloudFlareDNSManager {
                 }
             }
             catch (error) {
-                helpers.printConsole(error);
+                helpers_1.default.printConsole(error);
                 if (typeof error === 'string') {
                     throw new Error(`Error retrieving DNS records: ${error}`);
                 }
@@ -227,7 +232,7 @@ class CloudFlareDNSManager {
          * })
          */
         update: async (options) => {
-            helpers.printConsole('Updating DNS record..');
+            helpers_1.default.printConsole('Updating DNS record..');
             try {
                 if (!options) {
                     throw new Error('Cloudflare update DNS options are missing');
@@ -262,14 +267,14 @@ class CloudFlareDNSManager {
                 const data = await response.json();
                 if (!data.success) {
                     const error = data.errors;
-                    helpers.printConsole('Cloudflare DNS record update has failed with the following error');
-                    helpers.printConsole(error);
+                    helpers_1.default.printConsole('Cloudflare DNS record update has failed with the following error');
+                    helpers_1.default.printConsole(error);
                     throw new Error('Cloudflare DNS record update has failed');
                 }
                 return Promise.resolve({ success: true, code: 2, message: 'The record content has been updated' });
             }
             catch (error) {
-                helpers.printConsole(error);
+                helpers_1.default.printConsole(error);
                 if (typeof error === 'string') {
                     throw new Error(`Error updating DNS record: ${error}`);
                 }
@@ -283,4 +288,4 @@ class CloudFlareDNSManager {
         }
     };
 }
-export default CloudFlareDNSManager;
+exports.default = CloudFlareDNSManager;

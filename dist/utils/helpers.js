@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class Helpers {
     /**
      * Print something on the debug level
@@ -64,4 +66,4 @@ class Helpers {
         }
     });
 }
-export default new Helpers();
+exports.default = new Helpers();
