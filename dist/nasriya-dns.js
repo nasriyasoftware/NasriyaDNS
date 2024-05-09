@@ -1,9 +1,8 @@
 import CloudFlareDNSManager from './providers/cloudflare/cloudflare';
 import DuckDNSManager from './providers/duckdns/duckdns';
 /**A HyperCloud DNS manager */
-var hypercloudDNS;
-(function (hypercloudDNS) {
-    hypercloudDNS.helpers = Object.freeze({
+class HyperCloudDNS {
+    helpers = Object.freeze({
         /**
          * Get the current Public IP of this machine
          * @returns {Promise<string>} The IP address of this machine
@@ -26,18 +25,16 @@ var hypercloudDNS;
      * @param {string} apiToken Your cloudflare API token
      * @returns {CloudFlareDNSManager} A new instance of Cloudflare DNS Manager
      */
-    function cloudflare(apiToken) {
+    cloudflare(apiToken) {
         return new CloudFlareDNSManager(apiToken);
     }
-    hypercloudDNS.cloudflare = cloudflare;
     /**
      * APIs to work with Duckdns DNS records
      * @param {string} apiToken Your DuckDNS API token
      * @returns {DuckDNSManager}
      */
-    function duckdns(apiToken) {
+    duckdns(apiToken) {
         return new DuckDNSManager(apiToken);
     }
-    hypercloudDNS.duckdns = duckdns;
-})(hypercloudDNS || (hypercloudDNS = {}));
-export default hypercloudDNS;
+}
+export default new HyperCloudDNS;
