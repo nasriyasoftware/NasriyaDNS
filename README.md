@@ -11,6 +11,7 @@ If your server is running behind a dynamic IP address you can make use of **Nasr
 **Notes:**
 - **NasriyaDNS** is part of [HyperCloud](https://github.com/nasriyasoftware/HyperCloud)'s HTTP2 server framework. 
 - For now, only [Cloudflare](https://cloudflare.com) and [Duckdns](https://duckdns.org) are supported.
+- For now, you can *only* run the package with [Bun](https://bun.sh/).
 ___
 ## Quick Start Guide
 
