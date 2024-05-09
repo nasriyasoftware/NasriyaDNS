@@ -1,4 +1,5 @@
 import tldts from 'tldts';
+import helpers from '../../utils/helpers';
 
 interface DuckDNSCredentials {
     apiToken: string;
@@ -47,16 +48,18 @@ class DuckDNSManager {
                     throw response;
                 }
             } catch (error) {
-                console.error(error);
+                helpers.printConsole(error);
                 if (typeof error === 'string') {
-                    return Promise.reject(`Error updating DNS record: ${error}`);
+                    throw new Error(`Error updating DNS record: ${error}`);
                 }
 
-                if (typeof error?.message === 'string') {
-                    return Promise.reject(`Error updating DNS record: ${error.message}`);
+                if (error instanceof Error) {
+                    const err = new Error(`Error updating DNS record: ${error.message}`)
+                    err.stack = error.stack;
+                    throw err;
                 }
 
-                return Promise.reject('Error updating DNS record');
+                throw error;
             }
         }
     }

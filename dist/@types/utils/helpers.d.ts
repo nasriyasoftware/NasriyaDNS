@@ -5,8 +5,7 @@ declare class Helpers {
      * @returns {void}
     */
     printConsole(message: string | any): void;
-
-    readonly validate: {
+    readonly validate: Readonly<{
         /**
          * Validate an IPv4 or IPv6 address
          * @example
@@ -17,20 +16,20 @@ declare class Helpers {
          * @param {string} ip The IP address to validate
          * @returns {boolean}
          */
-        ipAddress(ip: string): boolean;
+        ipAddress: (ip: string) => boolean;
         /**
          * Pass domain(s) to check whether they're valid to be used for the SSL certificate
          * @param {string|string[]} toCheck The domain(s) to check
          * @returns {boolean}
         */
-        domains(toCheck: string | string[]): boolean;
+        domains: (toCheck: string | string[]) => boolean;
         /**
          * Check the syntax validity of an email address
          * @param {string} email The email address to check
          * @returns {boolean}
         */
-        email(email: string): boolean;
-    };
+        email: (email: string) => boolean;
+    }>;
 }
-
-export default Helpers;
+declare const _default: Helpers;
+export default _default;
