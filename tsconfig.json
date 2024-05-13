@@ -5,7 +5,7 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "declaration": true,
-        "declarationDir": "./dist/types",
+        "declarationDir": "./dist/@types",
         "esModuleInterop": true,
         "skipLibCheck": true,
         "strict": true,

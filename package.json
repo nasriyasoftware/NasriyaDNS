@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "A DNS manager for your domains",
   "main": "dist/nasriya-dns.js",
-  "types": "dist/types/nasriya-dns.d.ts",
+  "types": "dist/@types/nasriya-dns.d.ts",
   "scripts": {
     "test": "jest",
     "build": "tsc"
