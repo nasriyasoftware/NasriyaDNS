@@ -1,6 +1,5 @@
 declare class DuckDNSManager {
-    private readonly _apiUrl;
-    private readonly credentials;
+    #private;
     /**
      * Create a new `DuckDNSManager` instance
      * @param {string} apiToken An API token

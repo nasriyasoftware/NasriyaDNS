@@ -1,8 +1,6 @@
 import { DNSRecordType, A_Record_Cloudflare } from '../../docs/docs';
 declare class CloudFlareDNSManager {
-    private readonly _apiUrl;
-    private readonly _baseUrl;
-    private _credentials;
+    #private;
     /**@param {string} apiToken An API token with ```Edit``` permission. */
     constructor(apiToken: string);
     readonly zone: {

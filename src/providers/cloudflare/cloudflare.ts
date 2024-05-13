@@ -2,10 +2,10 @@ import { dnsRecordTypes, DNSRecordType, A_Record_Cloudflare } from '../../docs/d
 import helpers from '../../utils/helpers';
 
 class CloudFlareDNSManager {
-    private readonly _apiUrl = `https://api.cloudflare.com/client/v4`;
-    private readonly _baseUrl = `${this._apiUrl}/zones`;
+    readonly #_apiUrl = `https://api.cloudflare.com/client/v4`;
+    readonly #_baseUrl = `${this.#_apiUrl}/zones`;
 
-    private _credentials: CloudflareCredentials = Object.seal({
+    #_credentials: CloudflareCredentials = Object.seal({
         apiToken: null as unknown as string,
     })
 
@@ -13,12 +13,12 @@ class CloudFlareDNSManager {
     constructor(apiToken: string) {
         try {
             if (typeof apiToken === 'string' && apiToken.length > 10) {
-                this._credentials.apiToken = apiToken;
+                this.#_credentials.apiToken = apiToken;
             } else {
                 throw new Error('Invalid api token');
             }
-        } catch (error) {    
-            helpers.printConsole(error);        
+        } catch (error) {
+            helpers.printConsole(error);
             if (typeof error === 'string') {
                 throw new Error(`Cloudflare credentials error: ${error}`);
             }
@@ -52,12 +52,12 @@ class CloudFlareDNSManager {
                     options.accountName = encodeURIComponent(options.accountName)
                 }
 
-                const url = `${this._baseUrl}${validAN ? `?name=${options?.accountName}` : ''}`;
+                const url = `${this.#_baseUrl}${validAN ? `?name=${options?.accountName}` : ''}`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._credentials.apiToken}`,
+                        'Authorization': `Bearer ${this.#_credentials.apiToken}`,
                     }
                 })
 
@@ -80,7 +80,7 @@ class CloudFlareDNSManager {
                 if (typeof error === 'string') {
                     throw new Error(`Error retrieving Zone list: ${error}`);
                 }
-    
+
                 if (error instanceof Error) {
                     const err = new Error(`Error retrieving Zone list: ${error.message}`)
                     err.stack = error.stack;
@@ -101,11 +101,11 @@ class CloudFlareDNSManager {
                     throw new Error(`${zone_id} is an invalid zone ID`)
                 }
 
-                const response = await fetch(`${this._baseUrl}/${zone_id}`, {
+                const response = await fetch(`${this.#_baseUrl}/${zone_id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._credentials.apiToken}`,
+                        'Authorization': `Bearer ${this.#_credentials.apiToken}`,
                     }
                 })
 
@@ -128,7 +128,7 @@ class CloudFlareDNSManager {
                 if (typeof error === 'string') {
                     throw new Error(`Error retrieving Zone details: ${error}`);
                 }
-    
+
                 if (error instanceof Error) {
                     const err = new Error(`Error retrieving Zone details: ${error.message}`)
                     err.stack = error.stack;
@@ -163,12 +163,12 @@ class CloudFlareDNSManager {
                     }
                 }
 
-                const url = `${this._baseUrl}/${zone_id}/dns_records${query}`;
+                const url = `${this.#_baseUrl}/${zone_id}/dns_records${query}`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._credentials.apiToken}`,
+                        'Authorization': `Bearer ${this.#_credentials.apiToken}`,
                     }
                 })
 
@@ -200,7 +200,7 @@ class CloudFlareDNSManager {
                 if (typeof error === 'string') {
                     throw new Error(`Error retrieving DNS records: ${error}`);
                 }
-    
+
                 if (error instanceof Error) {
                     const err = new Error(`Error retrieving DNS records: ${error.message}`)
                     err.stack = error.stack;
@@ -264,12 +264,12 @@ class CloudFlareDNSManager {
                     return Promise.resolve({ success: false, code: 100008, message: `${options.record.type} is not yet supported.` });
                 }
 
-                const url = `${this._baseUrl}/${options.zone_id}/dns_records/${options.record_id}`;
+                const url = `${this.#_baseUrl}/${options.zone_id}/dns_records/${options.record_id}`;
                 const response = await fetch(url, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._credentials.apiToken}`,
+                        'Authorization': `Bearer ${this.#_credentials.apiToken}`,
                     },
                     body: JSON.stringify(options.record)
                 })
@@ -289,7 +289,7 @@ class CloudFlareDNSManager {
                 if (typeof error === 'string') {
                     throw new Error(`Error updating DNS record: ${error}`);
                 }
-    
+
                 if (error instanceof Error) {
                     const err = new Error(`Error updating DNS record: ${error.message}`)
                     err.stack = error.stack;

@@ -6,8 +6,8 @@ interface DuckDNSCredentials {
 }
 
 class DuckDNSManager {
-    private readonly _apiUrl: string = `https://www.duckdns.org/update`;
-    private readonly credentials: DuckDNSCredentials;
+    readonly #_apiUrl: string = `https://www.duckdns.org/update`;
+    readonly #_credentials: DuckDNSCredentials;
 
     /**
      * Create a new `DuckDNSManager` instance
@@ -16,7 +16,7 @@ class DuckDNSManager {
     constructor(apiToken: string) {        
         try {
             if (typeof apiToken === 'string' && apiToken.length > 10) {
-                this.credentials = { apiToken };
+                this.#_credentials = { apiToken };
             } else {
                 throw new Error('Invalid api token');
             }
@@ -50,7 +50,7 @@ class DuckDNSManager {
                 if (typeof ipAddress !== 'string') { throw new TypeError(`Duckdns update method expected a string type for the ipAddress parameter, but instead got ${typeof ipAddress}`) }
                 if (!tldts.parse(ipAddress).isIp) { throw `The provided ipAddress value (${ipAddress}) is not a valid IP address` }
 
-                const url = `${this._apiUrl}?domains=${domain}&token=${this.credentials.apiToken}&verbose=true`;
+                const url = `${this.#_apiUrl}?domains=${domain}&token=${this.#_credentials.apiToken}&verbose=true`;
 
                 const response = await fetch(url).then(res => res.text());
                 if (response?.startsWith('OK')) {

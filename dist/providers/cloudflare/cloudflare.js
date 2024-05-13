@@ -6,16 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const docs_1 = require("../../docs/docs");
 const helpers_1 = __importDefault(require("../../utils/helpers"));
 class CloudFlareDNSManager {
-    _apiUrl = `https://api.cloudflare.com/client/v4`;
-    _baseUrl = `${this._apiUrl}/zones`;
-    _credentials = Object.seal({
+    #_apiUrl = `https://api.cloudflare.com/client/v4`;
+    #_baseUrl = `${this.#_apiUrl}/zones`;
+    #_credentials = Object.seal({
         apiToken: null,
     });
     /**@param {string} apiToken An API token with ```Edit``` permission. */
     constructor(apiToken) {
         try {
             if (typeof apiToken === 'string' && apiToken.length > 10) {
-                this._credentials.apiToken = apiToken;
+                this.#_credentials.apiToken = apiToken;
             }
             else {
                 throw new Error('Invalid api token');
@@ -53,12 +53,12 @@ class CloudFlareDNSManager {
                     }
                     options.accountName = encodeURIComponent(options.accountName);
                 }
-                const url = `${this._baseUrl}${validAN ? `?name=${options?.accountName}` : ''}`;
+                const url = `${this.#_baseUrl}${validAN ? `?name=${options?.accountName}` : ''}`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._credentials.apiToken}`,
+                        'Authorization': `Bearer ${this.#_credentials.apiToken}`,
                     }
                 });
                 const data = await response.json();
@@ -98,11 +98,11 @@ class CloudFlareDNSManager {
                 if (typeof zone_id !== 'string' || zone_id.length === 0 || zone_id.length > 32) {
                     throw new Error(`${zone_id} is an invalid zone ID`);
                 }
-                const response = await fetch(`${this._baseUrl}/${zone_id}`, {
+                const response = await fetch(`${this.#_baseUrl}/${zone_id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._credentials.apiToken}`,
+                        'Authorization': `Bearer ${this.#_credentials.apiToken}`,
                     }
                 });
                 const data = await response.json();
@@ -155,12 +155,12 @@ class CloudFlareDNSManager {
                         throw `${options.type} is not a valid type of DNS records.`;
                     }
                 }
-                const url = `${this._baseUrl}/${zone_id}/dns_records${query}`;
+                const url = `${this.#_baseUrl}/${zone_id}/dns_records${query}`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._credentials.apiToken}`,
+                        'Authorization': `Bearer ${this.#_credentials.apiToken}`,
                     }
                 });
                 const data = await response.json();
@@ -255,12 +255,12 @@ class CloudFlareDNSManager {
                 if (options.record.type !== 'A') {
                     return Promise.resolve({ success: false, code: 100008, message: `${options.record.type} is not yet supported.` });
                 }
-                const url = `${this._baseUrl}/${options.zone_id}/dns_records/${options.record_id}`;
+                const url = `${this.#_baseUrl}/${options.zone_id}/dns_records/${options.record_id}`;
                 const response = await fetch(url, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this._credentials.apiToken}`,
+                        'Authorization': `Bearer ${this.#_credentials.apiToken}`,
                     },
                     body: JSON.stringify(options.record)
                 });

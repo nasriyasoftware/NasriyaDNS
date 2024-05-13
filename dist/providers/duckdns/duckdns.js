@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tldts_1 = __importDefault(require("tldts"));
 const helpers_1 = __importDefault(require("../../utils/helpers"));
 class DuckDNSManager {
-    _apiUrl = `https://www.duckdns.org/update`;
-    credentials;
+    #_apiUrl = `https://www.duckdns.org/update`;
+    #_credentials;
     /**
      * Create a new `DuckDNSManager` instance
      * @param {string} apiToken An API token
@@ -15,7 +15,7 @@ class DuckDNSManager {
     constructor(apiToken) {
         try {
             if (typeof apiToken === 'string' && apiToken.length > 10) {
-                this.credentials = { apiToken };
+                this.#_credentials = { apiToken };
             }
             else {
                 throw new Error('Invalid api token');
@@ -54,7 +54,7 @@ class DuckDNSManager {
                 if (!tldts_1.default.parse(ipAddress).isIp) {
                     throw `The provided ipAddress value (${ipAddress}) is not a valid IP address`;
                 }
-                const url = `${this._apiUrl}?domains=${domain}&token=${this.credentials.apiToken}&verbose=true`;
+                const url = `${this.#_apiUrl}?domains=${domain}&token=${this.#_credentials.apiToken}&verbose=true`;
                 const response = await fetch(url).then(res => res.text());
                 if (response?.startsWith('OK')) {
                     const finalResponse = { success: true, code: 0, message: `` };
