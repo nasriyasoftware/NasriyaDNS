@@ -13,8 +13,27 @@ class DuckDNSManager {
      * Create a new `DuckDNSManager` instance
      * @param {string} apiToken An API token
      */
-    constructor(apiToken: string) {
-        this.credentials = { apiToken };
+    constructor(apiToken: string) {        
+        try {
+            if (typeof apiToken === 'string' && apiToken.length > 10) {
+                this.credentials = { apiToken };
+            } else {
+                throw new Error('Invalid api token');
+            }
+        } catch (error) {    
+            helpers.printConsole(error);        
+            if (typeof error === 'string') {
+                throw new Error(`DuckDNS credentials error: ${error}`);
+            }
+
+            if (error instanceof Error) {
+                const err = new Error(`DuckDNS credentials error: ${error.message}`)
+                err.stack = error.stack;
+                throw err;
+            }
+
+            throw error;
+        }
     }
 
     public readonly records = {
