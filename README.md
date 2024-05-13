@@ -20,15 +20,8 @@ npm install nasriyasoftware/NasriyaDNS
 ```
 
 ### Importing
-You can import the pacakge both in the `ES6` or `CommonJS` syntax:
 ```ts
-// ES6 Syntax
 import hyperCloudDNS from 'nasriya-dns';
-```
-
-```js
-// CommonJS Syntax
-const hyperCloudDNS = require('nasriya-dns').default;
 ```
 
 ### Usage
