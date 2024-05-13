@@ -10,6 +10,7 @@ If your server is running behind a dynamic IP address you can make use of **Nasr
 
 **Notes:**
 - **NasriyaDNS** is part of [HyperCloud](https://github.com/nasriyasoftware/HyperCloud)'s HTTP2 server framework.
+- This is a **TypeScript** version. Install the JavaScript version from [here](https://github.com/nasriyasoftware/NasriyaDNSJS).
 ___
 ## Quick Start Guide
 
