@@ -2,10 +2,24 @@
   "name": "nasriya-dns",
   "version": "1.0.1",
   "description": "A DNS manager for your domains",
-  "main": "src/nasriya-dns.ts",
+  "main": "dist/cjs/nasriya-dns.js",
+  "module": "dist/esm/nasriya-dns.js",
+  "types": "dist/@types/nasriya-dns.d.ts",
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/nasriya-dns.js",
+      "require": "./dist/cjs/nasriya-dns.js"
+    }
+  },
   "scripts": {
-    "test": "jest",
-    "build": "tsc"
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
