@@ -2,17 +2,17 @@
   "name": "nasriya-dns",
   "version": "1.0.1",
   "description": "A DNS manager for your domains",
-  "main": "dist/cjs/nasriya-dns.js",
-  "module": "dist/esm/nasriya-dns.js",
-  "types": "dist/@types/nasriya-dns.d.ts",
-  "type": "module",
+  "main": "./dist/cjs/nasriya-dns.js",
+  "module": "./dist/esm/nasriya-dns.js",
+  "types": "./dist/@types/nasriya-dns.d.ts",
   "files": [
     "dist/**/*"
   ],
   "exports": {
     ".": {
       "import": "./dist/esm/nasriya-dns.js",
-      "require": "./dist/cjs/nasriya-dns.js"
+      "require": "./dist/cjs/nasriya-dns.js",
+      "types": "./dist/@types/nasriya-dns.d.ts"
     }
   },
   "scripts": {
