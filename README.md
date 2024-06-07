@@ -15,18 +15,18 @@ ___
 
 ### Installation
 ```shell
-npm install nasriyasoftware/NasriyaDNS
+npm i @nasriya/dns
 ```
 
 ### Importing
 Import in **ES6** modules
 ```ts
-import hyperCloudDNS from 'nasriya-dns';
+import hyperCloudDNS from '@nasriya/dns';
 ```
 
 Import in **CommonJS (CJS)**
 ```js
-const hyperCloudDNS = require('nasriya-dns').default;
+const hyperCloudDNS = require('@nasriya/dns').default;
 ```
 ### Usage
 Start by getting the new IP address:
