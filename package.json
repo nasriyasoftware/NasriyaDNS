@@ -2,16 +2,17 @@
   "name": "@nasriya/dns",
   "version": "1.0.2",
   "description": "A DNS manager for your domains",
-  "main": "./dist/cjs/nasriya-dns.cjs",
-  "module": "./dist/esm/nasriya-dns.mjs",
+  "main": "./dist/cjs/nasriya-dns.js",
+  "module": "./dist/esm/nasriya-dns.js",
   "types": "./dist/@types/nasriya-dns.d.ts",
   "files": [
     "dist/**/*"
   ],
   "exports": {
+    "./package.json": "./package.json",
     ".": {
-      "import": "./dist/esm/nasriya-dns.mjs",
-      "require": "./dist/cjs/nasriya-dns.cjs",
+      "require": "./dist/cjs/nasriya-dns.js",
+      "import": "./dist/esm/nasriya-dns.js",
       "types": "./dist/@types/nasriya-dns.d.ts"
     }
   },
@@ -30,10 +31,9 @@
     }
   ],
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs && npm run rename && npm run copyFiles",
+    "build": "npm run build:esm && npm run build:cjs && npm run copyFiles",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
-    "rename": "mod-js",
     "copyFiles": "ns-copySrc",
     "test": "jest"
   },
@@ -60,6 +60,7 @@
     "nasriya-copyfiles": "github:nasriyasoftware/CopyFiles",
     "nasriya-modularizejs": "github:nasriyasoftware/ModularizeJS",
     "ts-jest": "^29.1.2",
+    "tsup": "^8.1.0",
     "typescript": "^5.4.5"
   }
 }
