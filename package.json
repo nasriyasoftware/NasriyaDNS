@@ -1,6 +1,6 @@
 {
   "name": "@nasriya/dns",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A DNS manager for your domains",
   "main": "./dist/cjs/nasriya-dns.cjs",
   "module": "./dist/esm/nasriya-dns.mjs",
@@ -10,8 +10,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/esm/nasriya-dns.cjs",
-      "require": "./dist/cjs/nasriya-dns.mjs",
+      "import": "./dist/esm/nasriya-dns.mjs",
+      "require": "./dist/cjs/nasriya-dns.cjs",
       "types": "./dist/@types/nasriya-dns.d.ts"
     }
   },
