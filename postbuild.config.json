@@ -3,7 +3,7 @@
     "cjsDir": "auto",
     "verbose": true,
     "copyFiles": {
-        "from": "D:\\Dev\\Packages\\NasriyaDNS\\src",
+        "from": "./src",
         "exclude": [
             ".js"
         ]

@@ -1,6 +1,6 @@
 {
   "name": "@nasriya/dns",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A DNS manager for your domains",
   "main": "./dist/cjs/nasriya-dns.js",
   "module": "./dist/esm/nasriya-dns.js",
@@ -34,6 +34,7 @@
     "build": "npm run build:esm && npm run build:cjs && postbuild",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
+    "postbuild-init": "postbuild-init",
     "test": "jest"
   },
   "author": "Nasriya Software, LLC.",
