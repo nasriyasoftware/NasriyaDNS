@@ -34,9 +34,6 @@
     "build": "npm run build:esm && npm run build:cjs && postbuild",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
-    "copyFiles": "ns-copySrc",
-    "postbuild-init": "postbuild-init",
-    "postbuild": "postbuild",
     "test": "jest"
   },
   "author": "Nasriya Software, LLC.",
