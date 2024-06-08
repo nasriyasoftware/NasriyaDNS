@@ -9,7 +9,7 @@ ___
 If your server is running behind a dynamic IP address you can make use of **Nasriya DNS manager** to update the [DNS records](https://www.cloudflare.com/learning/dns/dns-records/) of your domain.
 
 **Notes:**
-- **NasriyaDNS** is part of [HyperCloud](https://github.com/nasriyasoftware/HyperCloud)'s HTTP2 server framework.
+- **NasriyaDNS** is part of [HyperCloud](https://www.npmjs.com/package/@nasriya/HyperCloud)'s HTTP2 server framework.
 ___
 ## Quick Start Guide
 

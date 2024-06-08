@@ -1,6 +1,6 @@
 {
   "name": "@nasriya/dns",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A DNS manager for your domains",
   "main": "./dist/cjs/nasriya-dns.js",
   "module": "./dist/esm/nasriya-dns.js",
