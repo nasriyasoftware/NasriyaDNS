@@ -57,8 +57,6 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
     "jest": "^29.7.0",
-    "nasriya-copyfiles": "github:nasriyasoftware/CopyFiles",
-    "nasriya-modularizejs": "github:nasriyasoftware/ModularizeJS",
     "ts-jest": "^29.1.2",
     "tsup": "^8.1.0",
     "typescript": "^5.4.5"
